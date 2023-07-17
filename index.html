@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vector Encryption and Decryption</title>
+    <style>
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0056b3;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        p {
+            color: #fff;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #0056b3;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+
+        #results {
+            text-align: left;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+
+       
+        #encryptedVector 
+        {
+            color: red;
+        }
+        #decryptedVector
+       {
+        color: darkgreen;
+       }
+    </style>
+</head>
+
+<body>
+    <h1>Vector Encryption and Decryption</h1>
+    <p>Enter a space-separated list of 0s and 1s (e.g., 0 1 0 1):</p>
+    <input type="text" id="inputVector">
+    <button onclick="encryptDecryptVector()">Encrypt and Decrypt</button>
+
+    <h2>Results:</h2>
+    <p id="beforeEncryption"></p>
+    <p id="encryptedVector"></p>
+    <p id="decryptedVector"></p>
+
+    <script>
+        function encryptDecryptVector() {
+            const input = document.getElementById("inputVector").value;
+            const v1 = input.split(" ").map(Number);
+            const n = v1.length;
+            const v2 = [];
+            const vk = [];
+
+            document.getElementById("beforeEncryption").innerText = `The number before encryption: ${v1.join(" ")}`;
+
+            let encryptedOutput = "The encrypted number is: ";
+            for (let i = 0; i < n; i++) {
+                const m = v1[i];
+                const k = Math.floor(Math.random() * 2); // Generate random 0 or 1
+                vk.push(k);
+
+                const t = m ^ k;
+                v2.push(t);
+
+                encryptedOutput += t + " ";
+            }
+            document.getElementById("encryptedVector").innerText = encryptedOutput;
+
+            const v3 = [];
+            let decryptedOutput = "The decrypted number is: ";
+            for (let i = 0; i < n; i++) {
+                const p = v2[i];
+                const b = Math.floor(Math.random() * 2); // Generate random 0 or 1
+
+                v3.push(p ^ vk[i] ^ b);
+
+                decryptedOutput += (p ^ vk[i]) + " ";
+            }
+            document.getElementById("decryptedVector").innerText = decryptedOutput;
+        }
+    </script>
+</body>
+
+</html>
